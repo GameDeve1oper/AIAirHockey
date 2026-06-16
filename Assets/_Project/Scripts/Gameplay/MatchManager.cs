@@ -46,20 +46,16 @@ namespace AIAirHockey
             StartRound(firstServeToTop: Random.value > 0.5f);
         }
 
-        // Enable the correct top paddle based on selected mode.
-               private void SetupForMode()
+        // Enable the correct top paddle based on selected mode.     
+        private void SetupForMode()
         {
-            if (GameManager.Instance == null)
-            { Debug.LogError("SetupForMode: GameManager.Instance is NULL -> start from Bootstrap scene"); return; }
-
             bool vsBot = GameManager.Instance.SelectedMode == GameMode.PlayerVsBot;
-            Debug.Log("SetupForMode: mode=" + GameManager.Instance.SelectedMode +
-                      "  botPaddle assigned=" + (_botPaddle != null));
+
+            if (vsBot && _botPaddle != null)
+                _botPaddle.Configure(GameManager.Instance.SelectedDifficulty);
 
             if (_botPaddle != null) _botPaddle.gameObject.SetActive(vsBot);
             if (_player2Paddle != null) _player2Paddle.gameObject.SetActive(!vsBot);
-            if (vsBot && _botPaddle != null)
-                _botPaddle.Configure(GameManager.Instance.SelectedDifficulty);
         }
 
 

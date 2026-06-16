@@ -31,17 +31,16 @@ namespace AIAirHockey
 
         private void FixedUpdate()
         {
-            if (_brain == null) { Debug.LogWarning("BotPaddle: _brain is NULL (Configure not called or profile missing)"); return; }
-            if (_puck == null) { Debug.LogWarning("BotPaddle: _puck is NULL (assign Puck in Inspector)"); return; }
+            if (_brain == null || _puck == null) return;
 
             Vector2 target = _brain.Decide(
                 _rb.position, _puck.Position, _puck.Velocity, Time.fixedDeltaTime);
-            Vector2 desired = (target - _rb.position);
+
+            // Smooth move toward target (both X and Y now).
             float maxStep = _profile.moveSpeed * Time.fixedDeltaTime;
-            Vector2 step = Vector2.ClampMagnitude(desired, maxStep);
-            Vector2 next = ClampToHalf(_rb.position + step);
+            Vector2 next = Vector2.MoveTowards(_rb.position, target, maxStep);
+            next = ClampToHalf(next);
             _rb.MovePosition(next);
         }
-
     }
 }
