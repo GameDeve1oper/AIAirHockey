@@ -851,33 +851,33 @@ MonoBehaviour:
   _sfxParam: SFXVolume
   _musicSource: {fileID: 1522542317}
   _sfxSource: {fileID: 1522542316}
-  _menuMusic: {fileID: 0}
-  _gameMusic: {fileID: 0}
+  _menuMusic: {fileID: 8300000, guid: 5976d5b33c353d148b336d34103adaf2, type: 3}
+  _gameMusic: {fileID: 8300000, guid: 5976d5b33c353d148b336d34103adaf2, type: 3}
   _sounds:
   - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
-  - id: 0
-    clip: {fileID: 0}
-    volume: 0
+    clip: {fileID: 8300000, guid: 391d63fb66764d14d9100414bce927b1, type: 3}
+    volume: 0.12
+  - id: 1
+    clip: {fileID: 8300000, guid: 0a568490642635a4da3889eafbc28a71, type: 3}
+    volume: 0.12
+  - id: 2
+    clip: {fileID: 8300000, guid: 72f90fac40bc8de45b6db58e961e4ef3, type: 3}
+    volume: 0.12
+  - id: 3
+    clip: {fileID: 8300000, guid: 9e9a9b34063d0184389a19ae7ebbff72, type: 3}
+    volume: 0.12
+  - id: 4
+    clip: {fileID: 8300000, guid: 92bfc2a688f960c4fb73ab0c661bc6c8, type: 3}
+    volume: 0.12
+  - id: 5
+    clip: {fileID: 8300000, guid: 92bfc2a688f960c4fb73ab0c661bc6c8, type: 3}
+    volume: 0.38
+  - id: 6
+    clip: {fileID: 8300000, guid: 0662bacf628000c4f920b953cd624274, type: 3}
+    volume: 0.12
+  - id: 7
+    clip: {fileID: 8300000, guid: 3892f99fc7f3a8e42a5038def1c360d9, type: 3}
+    volume: 0.12
 --- !u!114 &1522542320
 MonoBehaviour:
   m_ObjectHideFlags: 0

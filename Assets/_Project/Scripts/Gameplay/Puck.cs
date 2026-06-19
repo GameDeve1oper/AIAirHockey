@@ -73,16 +73,33 @@ namespace AIAirHockey
         }
 
         // Fire impact events for feel + audio on every collision.
-        private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
         {
             Vector2 contact = collision.GetContact(0).point;
             EventBus.RaisePuckImpact(contact);
 
             int layer = collision.gameObject.layer;
+            float speed = _rb.linearVelocity.magnitude;
+
             if (layer == LayerMask.NameToLayer("Paddle"))
+            {
                 AudioManager.Instance.Play(SoundId.PaddleHit);
+                // Feel: punch + flash the paddle that was hit.
+                var punch = collision.gameObject.GetComponent<ScalePunch>();
+                if (punch != null) punch.Punch();
+                var flash = collision.gameObject.GetComponent<FlashEffect>();
+                if (flash != null) flash.Flash();
+                // Hard hits add hit-stop + a little shake.
+                if (speed > _config.puckMaxSpeed * 0.7f)
+                {
+                    if (HitStop.Instance != null) HitStop.Instance.Stop(0.04f);
+                    if (ScreenShake.Instance != null) ScreenShake.Instance.Shake(0.12f, 0.15f);
+                }
+            }
             else if (layer == LayerMask.NameToLayer("Wall"))
+            {
                 AudioManager.Instance.Play(SoundId.WallHit);
+            }
         }
     }
 }

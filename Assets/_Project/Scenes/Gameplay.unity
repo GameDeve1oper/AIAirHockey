@@ -797,15 +797,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MatchManager
   _config: {fileID: 11400000, guid: a8c656bc53a8149468530255c5fe2fc0, type: 2}
-  _puck: {fileID: 6328490334063049775, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+  _puck: {fileID: 1784386812526354789}
   _playerPaddle: {fileID: 8571653445002460299, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
   _botPaddle: {fileID: 5915930330193080345}
-  _player2Paddle: {fileID: 7026711543943333889, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+  _player2Paddle: {fileID: 7241268142090202417}
   _goalTop: {fileID: 1887061178}
   _goalBottom: {fileID: 1271658522}
   _countdown: {fileID: 363815023}
-  _goalParticlePrefab: {fileID: 0}
-  _puckSpawnPrefab: {fileID: 0}
+  _goalParticlePrefab: {fileID: 6251332995117685384, guid: 648b8771c181c56489452c93eb5068c1, type: 3}
+  _puckSpawnPrefab: {fileID: 6251332995117685384, guid: 7211106363c82484082eee9eda217e03, type: 3}
 --- !u!4 &363815025
 Transform:
   m_ObjectHideFlags: 0
@@ -846,7 +846,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377784785}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1063,7 +1063,8 @@ GameObject:
   m_Component:
   - component: {fileID: 496146468}
   - component: {fileID: 496146467}
-  - component: {fileID: 496146466}
+  - component: {fileID: 496146469}
+  - component: {fileID: 496146470}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1071,14 +1072,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &496146466
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496146465}
-  m_Enabled: 1
 --- !u!20 &496146467
 Camera:
   m_ObjectHideFlags: 0
@@ -1145,6 +1138,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &496146469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496146465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201c7fb8baf7b784fb778b293331509f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.ScreenShake
+--- !u!81 &496146470
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496146465}
+  m_Enabled: 1
 --- !u!1 &503308956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
 --- !u!1 &522031741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1579,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
+--- !u!1 &676376313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676376315}
+  - component: {fileID: 676376314}
+  m_Layer: 0
+  m_Name: FeelSystems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &676376314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676376313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd05076eb3d8bc24c84fa1dc397a6528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.HitStop
+--- !u!4 &676376315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676376313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &761603804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2926,7 +2983,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194807978}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2935,7 +2992,7 @@ RectTransform:
   - {fileID: 377784786}
   - {fileID: 1371800526}
   - {fileID: 2106640164}
-  m_Father: {fileID: 1461010323}
+  m_Father: {fileID: 1289154956}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3250,7 +3307,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
+--- !u!1 &1289154955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1289154956}
+  m_Layer: 5
+  m_Name: Result Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1289154956
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289154955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1194807979}
+  m_Father: {fileID: 1461010323}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1358213350
 GameObject:
   m_ObjectHideFlags: 0
@@ -3347,7 +3440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
 --- !u!1 &1371800525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3375,7 +3468,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371800525}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3445,7 +3538,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1371800529}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1194807982}
+        m_TargetAssemblyTypeName: AIAirHockey.ResultPopup, Assembly-CSharp
+        m_MethodName: OnPlayAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1371800529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3519,7 +3624,7 @@ RectTransform:
   - {fileID: 522031742}
   - {fileID: 782068480}
   - {fileID: 1939474978}
-  - {fileID: 1194807979}
+  - {fileID: 1289154956}
   m_Father: {fileID: 1055695906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4022,7 +4127,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834413565}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4498,7 +4603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
 --- !u!1 &1939474977
 GameObject:
   m_ObjectHideFlags: 0
@@ -4915,7 +5020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc7313a4016d1843980db88fe922dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.Boundary
-  _wallSparkPrefab: {fileID: 0}
+  _wallSparkPrefab: {fileID: 2128305241496120462, guid: 2073f9bcfe2e7554ba91bbda137d6a0b, type: 3}
 --- !u!1 &2106640163
 GameObject:
   m_ObjectHideFlags: 0
@@ -4943,7 +5048,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106640163}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5013,7 +5118,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2106640167}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1194807982}
+        m_TargetAssemblyTypeName: AIAirHockey.ResultPopup, Assembly-CSharp
+        m_MethodName: OnMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2106640167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5259,8 +5376,47 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 665648745266297421, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1030078721607970003}
+    - targetCorrespondingSourceObject: {fileID: 665648745266297421, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1030078721607970002}
   m_SourcePrefab: {fileID: 100100000, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+--- !u!1 &1030078721607970001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 665648745266297421, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+  m_PrefabInstance: {fileID: 1030078721607970000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1030078721607970002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030078721607970001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ff886f328af5d47812d28c22770248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.FlashEffect
+  _flashColor: {r: 1, g: 1, b: 1, a: 1}
+  _duration: 0.1
+--- !u!114 &1030078721607970003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030078721607970001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00a89ad8f8ee5046b358f37e6f497ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.ScalePunch
+  _amount: 0.25
+  _duration: 0.18
 --- !u!1001 &1784386812526354788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5269,6 +5425,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2784953396434726105, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315968008878711687, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315968008878711687, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315968008878711687, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671642217938700735, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_Color.a
+      value: 0.36862746
+      objectReference: {fileID: 0}
     - target: {fileID: 6170542798367550826, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5392,19 +5568,58 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4950120228587641767, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5915930330193080348}
+    - targetCorrespondingSourceObject: {fileID: 4950120228587641767, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5915930330193080347}
   m_SourcePrefab: {fileID: 100100000, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
 --- !u!114 &5915930330193080345 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 854325983208792968, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
   m_PrefabInstance: {fileID: 5915930330193080344}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5915930330193080346}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19d3c3b5d22d83945800fee5509eb6f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.BotPaddle
+--- !u!1 &5915930330193080346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4950120228587641767, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+  m_PrefabInstance: {fileID: 5915930330193080344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5915930330193080347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915930330193080346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ff886f328af5d47812d28c22770248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.FlashEffect
+  _flashColor: {r: 1, g: 1, b: 1, a: 1}
+  _duration: 0.1
+--- !u!114 &5915930330193080348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915930330193080346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00a89ad8f8ee5046b358f37e6f497ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.ScalePunch
+  _amount: 0.25
+  _duration: 0.18
 --- !u!1001 &7241268142090202416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5478,6 +5693,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+--- !u!114 &7241268142090202417 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7026711543943333889, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+  m_PrefabInstance: {fileID: 7241268142090202416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7babd8eed1bde4d8f9ef8b99080769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.PlayerPaddle
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5496,3 +5722,4 @@ SceneRoots:
   - {fileID: 916257772}
   - {fileID: 1055695906}
   - {fileID: 146965492}
+  - {fileID: 676376315}

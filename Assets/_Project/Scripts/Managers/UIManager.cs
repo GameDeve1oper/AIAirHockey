@@ -13,7 +13,7 @@ namespace AIAirHockey
         private void Awake()
         {
             _pausePopup.SetActive(false);
-            _resultPopup.SetActive(false);
+           // _resultPopup.SetActive(false);
         }
 
         public void ShowPause() => _pausePopup.SetActive(true);

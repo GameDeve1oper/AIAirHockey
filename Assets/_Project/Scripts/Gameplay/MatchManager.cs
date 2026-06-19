@@ -39,6 +39,13 @@ namespace AIAirHockey
 
         private void Start()
         {
+            // Prewarm pooled effects so the first goal/hit never stutters.
+            if (PoolManager.Exists)
+            {
+                if (_goalParticlePrefab != null) PoolManager.Instance.Prewarm(_goalParticlePrefab, 3);
+                if (_puckSpawnPrefab != null) PoolManager.Instance.Prewarm(_puckSpawnPrefab, 2);
+            }
+
             _score = new ScoreSystem();
             _score.Reset();
             SetupForMode();

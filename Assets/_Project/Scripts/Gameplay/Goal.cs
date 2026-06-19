@@ -14,9 +14,13 @@ namespace AIAirHockey
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            
             if (!_armed) return;
             if (other.gameObject.layer != LayerMask.NameToLayer("Puck")) return;
-
+            
+          // Debug log added here:
+           // Debug.Log($"Puck entered the goal! Goal side scored on: {_side}");
+            
             _armed = false;
             // Tell the world this goal (this side) was scored on.
             EventBus.RaiseGoalScored(_side);

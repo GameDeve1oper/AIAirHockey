@@ -11,11 +11,15 @@ namespace AIAirHockey
 
         private void Awake()
         {
-            // Subscribe to loader progress.
-            SceneLoader.Instance.OnLoadProgress += OnProgress;
-            SceneLoader.Instance.OnLoadComplete += OnComplete;
             _root.SetActive(false);
         }
+
+        private void Start()
+        {
+            SceneLoader.Instance.OnLoadProgress += OnProgress;
+            SceneLoader.Instance.OnLoadComplete += OnComplete;
+        }
+
 
         private void OnEnable()
         {

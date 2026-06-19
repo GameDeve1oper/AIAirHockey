@@ -32,6 +32,10 @@ namespace AIAirHockey
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        private void Start()
+        {
             if (Instance != this) return;
             ApplySavedVolumes();
         }

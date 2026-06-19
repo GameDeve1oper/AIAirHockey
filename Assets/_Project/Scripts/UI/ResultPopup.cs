@@ -20,10 +20,11 @@ namespace AIAirHockey
 
         private void Show(PlayerSide winner)
         {
+             _root.SetActive(true);
             bool playerWon = winner == PlayerSide.Bottom;
             _title.text = playerWon ? "VICTORY" : "DEFEAT";
             _title.color = playerWon ? _victoryColor : _defeatColor;
-            _root.SetActive(true);
+           
         }
 
         public void OnPlayAgain() => _match.RestartMatch();
