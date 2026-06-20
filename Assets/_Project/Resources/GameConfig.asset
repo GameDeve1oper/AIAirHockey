@@ -19,6 +19,8 @@ MonoBehaviour:
   puckStartSpeed: 6
   puckMass: 0.3
   puckDrag: 0.2
+  puckRadius: 0.2635
   playerPaddleMaxSpeed: 40
   boardHalfWidth: 2.6
   boardHalfHeight: 4.8
+  goalHalfWidth: 1

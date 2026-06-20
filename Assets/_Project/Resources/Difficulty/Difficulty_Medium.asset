@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Difficulty_Medium
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyProfile
   difficulty: 1
-  moveSpeed: 12
-  acceleration: 22
-  reactionTime: 0.2
-  predictionTime: 0.25
-  aimError: 0.35
-  mistakeChance: 0.15
-  aggression: 0.5
-  defenseLineY: 3.4
+  moveSpeed: 20
+  acceleration: 25
+  reactionTime: 0.05
+  predictionTime: 0.4
+  aimError: 0.15
+  mistakeChance: 0.1
+  aggression: 0.75
+  defenseLineY: 2.5

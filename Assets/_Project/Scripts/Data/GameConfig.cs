@@ -17,6 +17,7 @@ namespace AIAirHockey
         public float puckStartSpeed = 6f;   // launch speed each round
         public float puckMass = 0.3f;
         public float puckDrag = 0.2f;       // slight slowdown over time
+        public float puckRadius = 0.3f;     // must match the Puck's CircleCollider2D radius
 
         [Header("Player Paddle")]
         public float playerPaddleMaxSpeed = 40f; // how fast it can follow finger
@@ -24,5 +25,11 @@ namespace AIAirHockey
         [Header("Board (world half-extents)")]
         public float boardHalfWidth = 2.6f;   // from center to side wall
         public float boardHalfHeight = 4.8f;  // from center to top/bottom wall
+
+        [Header("Goal Opening")]
+        [Tooltip("Half-width of the goal mouth gap in the top/bottom wall. " +
+                 "Must match the actual gap in your level geometry, so the " +
+                 "puck's safety clamp doesn't block legitimate goals.")]
+        public float goalHalfWidth = 1.0f;
     }
 }

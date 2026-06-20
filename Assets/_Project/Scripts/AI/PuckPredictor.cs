@@ -24,13 +24,14 @@ namespace AIAirHockey
 
             // Reflect X across side walls so the prediction respects bounces.
             float limit = _halfWidth - _puckRadius;
-            // Mirror-fold p.x into [-limit, limit].
             float range = 2f * limit;
             if (range <= 0f) return p;
-            float shifted = p.x + limit;                 // shift to [0, 2*limit]
-            float modded = Mathf.Repeat(shifted, range); // wrap
-            // Triangle wave gives the reflected position.
-            float folded = Mathf.PingPong(p.x + limit, range) ; 
+
+            // Triangle wave gives the reflected (mirror-folded) X position,
+            // so the prediction "bounces" off side walls the same way the
+            // real puck would instead of assuming it travels in a straight
+            // line forever.
+            float folded = Mathf.PingPong(p.x + limit, range);
             p.x = folded - limit;
             return p;
         }

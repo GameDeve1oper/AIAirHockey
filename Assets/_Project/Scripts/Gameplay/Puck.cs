@@ -9,6 +9,7 @@ namespace AIAirHockey
         [SerializeField] private GameConfig _config;
 
         private Rigidbody2D _rb;
+        private CircleCollider2D _collider;
         public Rigidbody2D Body => _rb;
         public Vector2 Position => _rb.position;
         public Vector2 Velocity => _rb.linearVelocity;
@@ -22,6 +23,7 @@ namespace AIAirHockey
         private void EnsureInit()
         {
             if (_rb == null) _rb = GetComponent<Rigidbody2D>();
+            if (_collider == null) _collider = GetComponent<CircleCollider2D>();
         }
 
         private void Start()
@@ -32,6 +34,15 @@ namespace AIAirHockey
                 _rb.mass = _config.puckMass;
                 _rb.linearDamping = _config.puckDrag;
             }
+
+            // IMPORTANT: Fast paddles (player paddle can hit 40 u/s) can
+            // tunnel a normal discrete-collision puck through a wall in a
+            // single physics step, especially in corners where two walls
+            // must be resolved at once. Continuous Collision Detection
+            // makes Unity sweep the puck's path each step instead of just
+            // checking its start/end position, which is what actually
+            // stops corner-ejection at the source.
+            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
         // Called by MatchManager to place and launch the puck each round.
@@ -70,6 +81,72 @@ namespace AIAirHockey
                 _rb.linearVelocity = _rb.linearVelocity.normalized * _config.puckMaxSpeed;
             else if (speed > 0.01f && speed < _config.puckMinSpeedAfterHit)
                 _rb.linearVelocity = _rb.linearVelocity.normalized * _config.puckMinSpeedAfterHit;
+
+            ClampInsideBoard();
+        }
+
+        // Safety net: even with Continuous Collision Detection enabled,
+        // guarantee the puck can never end up outside the playfield.
+        // This catches corner double-collisions, high Time.timeScale,
+        // or any future change that reintroduces tunneling. We clamp
+        // position AND zero/reflect the offending velocity component so
+        // it doesn't just get re-pushed out again next frame.
+        private void ClampInsideBoard()
+        {
+            if (_config == null) return;
+
+            // GameConfig.puckRadius is the single source of truth used by
+            // the AI's prediction math too (see BotBrain/PuckPredictor).
+            // Prefer it here so both systems always agree on the puck's
+            // size; fall back to the live collider only if it's missing.
+            float radius = _config.puckRadius > 0f
+                ? _config.puckRadius
+                : (_collider != null ? _collider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y) : 0.3f);
+
+#if UNITY_EDITOR
+            if (_collider != null)
+            {
+                float actual = _collider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y);
+                if (Mathf.Abs(actual - _config.puckRadius) > 0.02f)
+                    Debug.LogWarning($"Puck: GameConfig.puckRadius ({_config.puckRadius}) doesn't match " +
+                                      $"the actual collider radius ({actual}). AI predictions and wall " +
+                                      $"clamping may be slightly off near corners. Update GameConfig to match.");
+            }
+#endif
+
+            float limitX = _config.boardHalfWidth - radius;
+            float limitY = _config.boardHalfHeight - radius;
+
+            Vector2 pos = _rb.position;
+            Vector2 vel = _rb.linearVelocity;
+            bool corrected = false;
+
+            if (pos.x > limitX) { pos.x = limitX; vel.x = -Mathf.Abs(vel.x); corrected = true; }
+            else if (pos.x < -limitX) { pos.x = -limitX; vel.x = Mathf.Abs(vel.x); corrected = true; }
+
+            // BUG FIX: only clamp the Y edges where there's actually a
+            // SOLID wall. The top/bottom edges have a gap (the goal mouth)
+            // that the puck must be allowed to pass through freely so the
+            // Goal trigger can register the score. Previously this clamp
+            // treated the whole top/bottom edge as solid, so the puck got
+            // bounced back even when it was lined up with the open net —
+            // it only "scored" on fast shots that crossed the goal
+            // trigger before this clamp ran in the same/next frame.
+            bool inGoalGapX = Mathf.Abs(pos.x) <= _config.goalHalfWidth - radius;
+
+            if (!inGoalGapX)
+            {
+                if (pos.y > limitY) { pos.y = limitY; vel.y = -Mathf.Abs(vel.y); corrected = true; }
+                else if (pos.y < -limitY) { pos.y = -limitY; vel.y = Mathf.Abs(vel.y); corrected = true; }
+            }
+            // If inGoalGapX is true, we deliberately do nothing on Y here —
+            // let the puck sail through into the goal trigger zone.
+
+            if (corrected)
+            {
+                _rb.position = pos;
+                _rb.linearVelocity = vel;
+            }
         }
 
         // Fire impact events for feel + audio on every collision.
