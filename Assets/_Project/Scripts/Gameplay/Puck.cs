@@ -10,6 +10,7 @@ namespace AIAirHockey
 
         private Rigidbody2D _rb;
         private CircleCollider2D _collider;
+        private Renderer _renderer; // works for SpriteRenderer/MeshRenderer alike
         public Rigidbody2D Body => _rb;
         public Vector2 Position => _rb.position;
         public Vector2 Velocity => _rb.linearVelocity;
@@ -24,6 +25,18 @@ namespace AIAirHockey
         {
             if (_rb == null) _rb = GetComponent<Rigidbody2D>();
             if (_collider == null) _collider = GetComponent<CircleCollider2D>();
+            if (_renderer == null) _renderer = GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>();
+        }
+
+        // Show/hide the puck visually without disabling the GameObject
+        // (so its scripts/physics state stay intact for the next reset).
+        // Used so the puck disappears the instant a goal is scored,
+        // instead of visibly bouncing off the back of the net for the
+        // rest of the goalResetDelay.
+        public void SetVisible(bool visible)
+        {
+            EnsureInit();
+            if (_renderer != null) _renderer.enabled = visible;
         }
 
         private void Start()
@@ -49,6 +62,7 @@ namespace AIAirHockey
         public void ResetPuck(Vector2 position, Vector2 launchDirection)
         {
             EnsureInit(); // guard against being called before Awake
+            SetVisible(true); // undo the hide-on-goal from HandleGoalScored
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
             _rb.position = position;

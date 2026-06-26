@@ -91,6 +91,17 @@ namespace AIAirHockey
             if (_state != MatchState.Playing) return;
             SetState(MatchState.GoalScored);
 
+            // FIX: previously the puck kept simulating/flying after the
+            // goal trigger fired, for the entire goalResetDelay (1.2s).
+            // Visually that looked like "it went in, then came back" --
+            // it actually sailed past the net, got caught by the board's
+            // safety clamp once it left the goal gap, and bounced, all
+            // before StartRound() finally froze it on the next round.
+            // Freezing AND hiding it right here makes it disappear the
+            // instant the goal message appears, like Glow Hockey does.
+            _puck.Freeze();
+            _puck.SetVisible(false);
+
             _score.AwardForConceded(concededSide);
             AudioManager.Instance.Play(SoundId.Goal);
 
