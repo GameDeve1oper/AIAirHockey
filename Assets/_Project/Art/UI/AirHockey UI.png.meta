@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: fb18f0084a43f8547a112215530109d2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1049936207820266986
+    second: AirHockey UI_0
+  - first:
+      213: 2314495681064583779
+    second: AirHockey UI_1
+  - first:
+      213: 5330038003544330245
+    second: AirHockey UI_2
+  - first:
+      213: -4455167098569381535
+    second: AirHockey UI_3
+  - first:
+      213: -1462564538980676287
+    second: AirHockey UI_4
+  - first:
+      213: -1184196784781227163
+    second: AirHockey UI_5
+  - first:
+      213: -1709135725665400405
+    second: AirHockey UI_6
+  - first:
+      213: -511895854562642352
+    second: AirHockey UI_7
+  - first:
+      213: -6339169997396083591
+    second: AirHockey UI_8
+  - first:
+      213: 9023881339267742319
+    second: AirHockey UI_9
+  - first:
+      213: -8770597527078807659
+    second: AirHockey UI_10
+  - first:
+      213: -7845149572408093134
+    second: AirHockey UI_11
+  - first:
+      213: 8969500806679601876
+    second: AirHockey UI_12
+  - first:
+      213: -4978957332968379915
+    second: AirHockey UI_13
+  - first:
+      213: -1247025845856589672
+    second: AirHockey UI_14
+  - first:
+      213: -5960399479912600253
+    second: AirHockey UI_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AirHockey UI_0
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 957
+        width: 551
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 90, y: 60, z: 90, w: 60}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6126d00f490ed61f0800000000000000
+      internalID: -1049936207820266986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_1
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 427
+        width: 719
+        height: 791
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 120, y: 165, z: 120, w: 165}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 362c7082f8dbe1020800000000000000
+      internalID: 2314495681064583779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 765
+        width: 551
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 90, y: 60, z: 90, w: 60}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5009790135918f940800000000000000
+      internalID: 5330038003544330245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_3
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 680
+        width: 466
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 169a3cad0211c22c0800000000000000
+      internalID: -4455167098569381535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_4
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 480
+        width: 500
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14d49f00d4de3bbe0800000000000000
+      internalID: -1462564538980676287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_5
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 488
+        width: 129
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56b84f26c43e09fe0800000000000000
+      internalID: -1184196784781227163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_6
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 428
+        width: 344
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba9c8c6ec1ee748e0800000000000000
+      internalID: -1709135725665400405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_7
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 337
+        width: 1025
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0567cc2be6165e8f0800000000000000
+      internalID: -511895854562642352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_8
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 220
+        width: 1093
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97c7466497eb608a0800000000000000
+      internalID: -6339169997396083591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_9
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 32
+        width: 129
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6a745a74444b3d70800000000000000
+      internalID: 9023881339267742319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_10
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5975c8a8404984680800000000000000
+      internalID: -8770597527078807659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_11
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 236dece770e602390800000000000000
+      internalID: -7845149572408093134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_12
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d2a7b216711a7c70800000000000000
+      internalID: 8969500806679601876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_13
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f9e7907fa037eab0800000000000000
+      internalID: -4978957332968379915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_14
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 898acf7a99ca1bee0800000000000000
+      internalID: -1247025845856589672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AirHockey UI_15
+      rect:
+        serializedVersion: 2
+        x: 1022
+        y: 32
+        width: 128
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34de268a048684da0800000000000000
+      internalID: -5960399479912600253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 57892a83504c5314c95fa3bcb8d27a54
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      AirHockey UI_0: -1049936207820266986
+      AirHockey UI_1: 2314495681064583779
+      AirHockey UI_10: -8770597527078807659
+      AirHockey UI_11: -7845149572408093134
+      AirHockey UI_12: 8969500806679601876
+      AirHockey UI_13: -4978957332968379915
+      AirHockey UI_14: -1247025845856589672
+      AirHockey UI_15: -5960399479912600253
+      AirHockey UI_2: 5330038003544330245
+      AirHockey UI_3: -4455167098569381535
+      AirHockey UI_4: -1462564538980676287
+      AirHockey UI_5: -1184196784781227163
+      AirHockey UI_6: -1709135725665400405
+      AirHockey UI_7: -511895854562642352
+      AirHockey UI_8: -6339169997396083591
+      AirHockey UI_9: 9023881339267742319
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

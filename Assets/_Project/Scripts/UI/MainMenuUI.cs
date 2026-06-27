@@ -53,5 +53,19 @@ namespace AIAirHockey
             _settingsPanel.SetActive(false);
             _difficultyPanel.SetActive(true);
         }
+
+        public void QuitGame()
+        {
+    /*     Debug.Log("Quitting game..."); */
+
+        // If running in the Unity Editor
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            
+        // If running in a build (Windows, Mac, Linux, Mobile, etc.)
+        #else
+            Application.Quit();
+        #endif
+        }
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.GameConfig
   goalsToWin: 5
   goalResetDelay: 1.2
-  puckMaxSpeed: 14
+  puckMaxSpeed: 13
   puckMinSpeedAfterHit: 4
   puckStartSpeed: 6
   puckMass: 0.3

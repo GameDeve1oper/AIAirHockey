@@ -13,9 +13,4 @@ MonoBehaviour:
   m_Name: Difficulty_Medium
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyProfile
   difficulty: 1
-  moveSpeed: 15
-  reactionTime: 0.18
-  predictionTime: 0.4
-  defenseLineY: 3.4
-  minY: 0.3
-  maxY: 7
+  moveSpeed: 11

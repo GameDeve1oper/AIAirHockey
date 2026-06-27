@@ -110,9 +110,9 @@ namespace AIAirHockey
             if (_config == null) return;
 
             // GameConfig.puckRadius is the single source of truth used by
-            // the AI's prediction math too (see BotBrain/PuckPredictor).
-            // Prefer it here so both systems always agree on the puck's
-            // size; fall back to the live collider only if it's missing.
+            // the AI's corner/recover math too (see BotBrain). Prefer it
+            // here so both systems always agree on the puck's size; fall
+            // back to the live collider only if it's missing.
             float radius = _config.puckRadius > 0f
                 ? _config.puckRadius
                 : (_collider != null ? _collider.radius * Mathf.Max(transform.localScale.x, transform.localScale.y) : 0.3f);
