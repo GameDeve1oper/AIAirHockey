@@ -180,6 +180,11 @@ namespace AIAirHockey
                 if (punch != null) punch.Punch();
                 var flash = collision.gameObject.GetComponent<FlashEffect>();
                 if (flash != null) flash.Flash();
+                // Tell the bot it just struck the puck, so BotBrain can
+                // pull back (RECOIL) instead of re-closing to point-blank
+                // range next frame. No-op for the player's own paddle.
+                var bot = collision.gameObject.GetComponent<BotPaddle>();
+                if (bot != null) bot.NotifyHit();
                 // Hard hits add hit-stop + a little shake.
                 if (speed > _config.puckMaxSpeed * 0.7f)
                 {

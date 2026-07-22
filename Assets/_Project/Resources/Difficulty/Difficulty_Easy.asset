@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Difficulty_Easy
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyProfile
   difficulty: 0
-  moveSpeed: 6
+  moveSpeed: 7

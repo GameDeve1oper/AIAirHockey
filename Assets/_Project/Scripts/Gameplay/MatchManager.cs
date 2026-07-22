@@ -50,7 +50,8 @@ namespace AIAirHockey
             _score.Reset();
             SetupForMode();
             AudioManager.Instance.PlayGameMusic();
-            StartRound(firstServeToTop: Random.value > 0.5f);
+            // First puck of the match always spawns dead-center, at rest.
+            StartRound(Vector2.zero);
         }
 
         // Enable the correct top paddle based on selected mode.     
@@ -66,22 +67,24 @@ namespace AIAirHockey
         }
 
 
-        // Begin a round: freeze puck, countdown, then launch.
-        private void StartRound(bool firstServeToTop)
+        // Begin a round: freeze the puck at spawnPosition, run the countdown,
+        // then unfreeze it AT REST. No auto-launch in any direction -- the
+        // puck just sits there, dead still, until a paddle actually hits it.
+        private void StartRound(Vector2 spawnPosition)
         {
             SetState(MatchState.Countdown);
-            _puck.ResetPuck(Vector2.zero, Vector2.zero);
+            _puck.ResetPuck(spawnPosition, Vector2.zero);
             _puck.Freeze();
             _goalTop.Arm();
             _goalBottom.Arm();
 
             StartCoroutine(_countdown.Run(() =>
             {
+                // Unfreeze with zero velocity (already set above, and Freeze()
+                // never touched it) -- the puck stays put until it's hit.
                 _puck.Unfreeze();
-                Vector2 dir = firstServeToTop ? Vector2.up : Vector2.down;
-                _puck.ResetPuck(Vector2.zero, dir);
                 if (_puckSpawnPrefab != null && PoolManager.Exists)
-                    PoolManager.Instance.SpawnTimed(_puckSpawnPrefab, Vector2.zero, Quaternion.identity, 0.6f);
+                    PoolManager.Instance.SpawnTimed(_puckSpawnPrefab, spawnPosition, Quaternion.identity, 0.6f);
                 SetState(MatchState.Playing);
             }));
         }
@@ -128,9 +131,15 @@ namespace AIAirHockey
         private IEnumerator NextRoundAfterDelay(PlayerSide concededSide)
         {
             yield return new WaitForSeconds(_config.goalResetDelay);
-            // Serve toward whoever just conceded (give them the puck).
-            bool serveToTop = concededSide == PlayerSide.Top;
-            StartRound(serveToTop);
+
+            // concededSide is who got SCORED ON, so the puck goes to the
+            // OTHER side -- the side that just scored -- offset a little
+            // into their own half (not buried in the goal mouth, not back
+            // at dead center). Bottom = player (-Y), Top = AI (+Y).
+            float y = concededSide == PlayerSide.Top
+                ? _config.goalSideSpawnOffset   // player scored -> puck appears on the AI's side
+                : -_config.goalSideSpawnOffset; // AI scored -> puck appears on the player's side
+            StartRound(new Vector2(0f, y));
         }
 
         private IEnumerator FinishMatch(PlayerSide winner)

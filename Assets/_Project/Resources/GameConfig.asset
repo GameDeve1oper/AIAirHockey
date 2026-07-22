@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a5fca91840c4944a142e6b4bcf9624, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.GameConfig
-  goalsToWin: 5
+  goalsToWin: 2
   goalResetDelay: 1.2
+  goalSideSpawnOffset: 3
   puckMaxSpeed: 13
-  puckMinSpeedAfterHit: 4
+  puckMinSpeedAfterHit: 2
   puckStartSpeed: 6
   puckMass: 0.3
   puckDrag: 0.2

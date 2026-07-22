@@ -11,6 +11,11 @@ namespace AIAirHockey
         public int goalsToWin = 7;          // first to this many goals wins
         public float goalResetDelay = 1.2f; // pause after a goal before reset
 
+        [Tooltip("How far from center (toward the side that just scored) the puck " +
+                 "respawns after a goal, in world units along Y. The very first puck " +
+                 "of the match still spawns at exact center (0,0) regardless of this.")]
+        public float goalSideSpawnOffset = 3f;
+
         [Header("Puck")]
         public float puckMaxSpeed = 14f;    // clamp so it never goes uncatchable
         public float puckMinSpeedAfterHit = 4f; // keep it lively

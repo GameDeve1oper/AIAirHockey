@@ -28,6 +28,12 @@ namespace AIAirHockey
         // Exposed for debugging (e.g. an on-screen label or gizmo).
         public AIState CurrentState => _brain != null ? _brain.CurrentState : AIState.Guard;
 
+        // Called by Puck.OnCollisionEnter2D the instant this paddle
+        // physically touches the puck -- triggers a brief recoil/pull-back
+        // in BotBrain instead of immediately re-closing to point-blank
+        // range. See BotBrain's RECOIL state for the full reasoning.
+        public void NotifyHit() => _brain?.NotifyHit();
+
         private void OnEnable()
         {
             EventBus.OnMatchStateChanged += HandleMatchStateChanged;

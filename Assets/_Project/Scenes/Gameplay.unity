@@ -2247,7 +2247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 440, y: -740}
+  m_AnchoredPosition: {x: 450, y: -696}
   m_SizeDelta: {x: 575, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &952978844
@@ -2875,6 +2875,7 @@ GameObject:
   - component: {fileID: 1194807979}
   - component: {fileID: 1194807981}
   - component: {fileID: 1194807980}
+  - component: {fileID: 1194807982}
   m_Layer: 5
   m_Name: ResultPopup
   m_TagString: Untagged
@@ -2900,10 +2901,10 @@ RectTransform:
   - {fileID: 1661248735}
   m_Father: {fileID: 1289154956}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -200, y: -800}
+  m_SizeDelta: {x: 900, y: 1032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194807980
 MonoBehaviour:
@@ -2943,6 +2944,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1194807978}
   m_CullTransparentMesh: 1
+--- !u!114 &1194807982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194807978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7bb8788d93d4a479b2ce2d4f9a6260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.UIPanelMaxSize
+  _maxWidth: 1080
+  _maxHeight: 1920
+  _preserveAspect: 1
 --- !u!1 &1208070454
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,7 +2996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 440, y: -560}
+  m_AnchoredPosition: {x: 450, y: -516}
   m_SizeDelta: {x: 575, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1208070456
@@ -3533,7 +3549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -159}
+  m_AnchoredPosition: {x: 0, y: 15}
   m_SizeDelta: {x: 550, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1371800527
@@ -4109,7 +4125,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -344}
+  m_AnchoredPosition: {x: 0, y: -170}
   m_SizeDelta: {x: 550, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1661248736
@@ -4324,7 +4340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 440, y: -380}
+  m_AnchoredPosition: {x: 450, y: -336}
   m_SizeDelta: {x: 575, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787350912
@@ -4985,6 +5001,7 @@ GameObject:
   - component: {fileID: 1939474980}
   - component: {fileID: 1939474979}
   - component: {fileID: 1939474981}
+  - component: {fileID: 1939474982}
   m_Layer: 5
   m_Name: PausePopup
   m_TagString: Untagged
@@ -5008,10 +5025,10 @@ RectTransform:
   - {fileID: 1268935808}
   m_Father: {fileID: 1461010323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -200, y: -800}
+  m_SizeDelta: {x: 900, y: 1032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1939474979
 MonoBehaviour:
@@ -5065,6 +5082,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.PausePopup
   _uiManager: {fileID: 916257771}
   _match: {fileID: 363815024}
+--- !u!114 &1939474982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939474977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7bb8788d93d4a479b2ce2d4f9a6260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.UIPanelMaxSize
+  _maxWidth: 1080
+  _maxHeight: 1920
+  _preserveAspect: 1
 --- !u!1 &1963129391
 GameObject:
   m_ObjectHideFlags: 0
@@ -5837,6 +5869,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2074042030098879065, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074042030098879065, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074042030098879065, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074042030098879065, guid: 339ac65a4a3849a41bf8ae5a2727faff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -5949,6 +5993,18 @@ PrefabInstance:
       value: 0.36862746
       objectReference: {fileID: 0}
     - target: {fileID: 6170542798367550826, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170542798367550826, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170542798367550826, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.79999995
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170542798367550826, guid: 101dfca87eb347741bf7380aeed13070, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -6030,7 +6086,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4950120228587641767, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6154,6 +6222,18 @@ PrefabInstance:
     - target: {fileID: 5797140201169210927, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
       propertyPath: m_Color.r
       value: 0.2830189
+      objectReference: {fileID: 0}
+    - target: {fileID: 8311901956598282172, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8311901956598282172, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8311901956598282172, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 8311901956598282172, guid: 4a40dcceb940ef44993451405e49e9ad, type: 3}
       propertyPath: m_LocalPosition.x

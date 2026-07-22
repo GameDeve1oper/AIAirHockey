@@ -1584,6 +1584,7 @@ GameObject:
   - component: {fileID: 472245890}
   - component: {fileID: 472245889}
   - component: {fileID: 472245892}
+  - component: {fileID: 472245893}
   m_Layer: 5
   m_Name: DifficultyPanel
   m_TagString: Untagged
@@ -1645,10 +1646,10 @@ RectTransform:
   - {fileID: 1006307282}
   m_Father: {fileID: 411690241}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -170, y: -850}
+  m_SizeDelta: {x: 900, y: 1032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &472245892
 MonoBehaviour:
@@ -1663,6 +1664,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyUI
   _menu: {fileID: 705997513}
+--- !u!114 &472245893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472245887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7bb8788d93d4a479b2ce2d4f9a6260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.UIPanelMaxSize
+  _maxWidth: 1080
+  _maxHeight: 1920
+  _preserveAspect: 1
 --- !u!1 &494224955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,6 +1920,7 @@ GameObject:
   - component: {fileID: 637612817}
   - component: {fileID: 637612816}
   - component: {fileID: 637612819}
+  - component: {fileID: 637612820}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -1967,10 +1984,10 @@ RectTransform:
   - {fileID: 39407529}
   m_Father: {fileID: 411690241}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -200, y: -1000}
+  m_SizeDelta: {x: 900, y: 1032}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &637612819
 MonoBehaviour:
@@ -1986,6 +2003,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.SettingsUI
   _musicSlider: {fileID: 970363262}
   _sfxSlider: {fileID: 1345778605}
+--- !u!114 &637612820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637612815}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7bb8788d93d4a479b2ce2d4f9a6260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.UIPanelMaxSize
+  _maxWidth: 1080
+  _maxHeight: 1920
+  _preserveAspect: 1
 --- !u!1 &655260746
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,7 +3067,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 455, y: -272.5}
+  m_AnchoredPosition: {x: 450, y: -253.5}
   m_SizeDelta: {x: 500, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225739118
@@ -3482,7 +3514,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 455, y: -797.5}
+  m_AnchoredPosition: {x: 450, y: -778.5}
   m_SizeDelta: {x: 500, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1347623945
@@ -3784,7 +3816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 455, y: -447.5}
+  m_AnchoredPosition: {x: 450, y: -428.5}
   m_SizeDelta: {x: 500, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1435419320
@@ -4465,7 +4497,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 455, y: -622.5}
+  m_AnchoredPosition: {x: 450, y: -603.5}
   m_SizeDelta: {x: 500, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1971848082

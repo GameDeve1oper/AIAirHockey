@@ -26,11 +26,17 @@ namespace AIAirHockey
     //            takes over and strikes it out.
     //   FOLLOW   normal case: puck is on our side and not in trouble.
     //            Chase it directly -- full commit, anywhere on our half.
+    //   RECOIL   we just physically struck the puck. Pull back further
+    //            than normal Follow distance for a brief window, ignoring
+    //            the puck's minor post-hit wobble, so contact reads as a
+    //            single clean hit-and-separate instead of continuous
+    //            dribbling/pushing. Recover/Corner still preempt this --
+    //            safety always wins over the cosmetic pull-back.
     //   GUARD    puck is on the player's side. Wander randomly around our
     //            own half (NOT tracking the puck's x -- that looked too
     //            robotic) so we look relaxed, but react instantly the
     //            moment the puck crosses back onto our side.
-    public enum AIState { Guard, Follow, Recover, Corner }
+    public enum AIState { Guard, Follow, Recover, Corner, Recoil }
 
     public class BotBrain
     {
@@ -55,6 +61,11 @@ namespace AIAirHockey
         // instead of getting stuck pinning it and bouncing it repeatedly.
         private const float FollowBehindMult    = 1.0f;  // x paddle radius, offset toward own goal
 
+        // RECOIL: how long and how far we pull back right after physically
+        // striking the puck, before resuming normal Follow/Guard logic.
+        private const float RecoilDuration      = 0.18f; // seconds
+        private const float RecoilBehindMult    = 2.5f;  // x puck radius -- noticeably more than FollowBehindMult
+
         // Idle wander, used by GUARD instead of mirroring the puck's x --
         // looks relaxed/human rather than robotically tracking the player.
         private const float WanderIntervalMin   = 0.5f;  // seconds between picking a new wander point
@@ -74,6 +85,18 @@ namespace AIAirHockey
 
         private AIState _state = AIState.Guard;
         public AIState CurrentState => _state;
+
+        // Set by NotifyHit() whenever the paddle physically contacts the
+        // puck (called from BotPaddle, via Puck's existing collision
+        // handler). Decide() checks Time.time against this every frame --
+        // no per-frame work needed when nothing's been hit recently.
+        private float _recoilUntil = -1f;
+
+        // Called the instant the paddle physically touches the puck.
+        public void NotifyHit()
+        {
+            _recoilUntil = Time.time + RecoilDuration;
+        }
 
         // Idle wander state (see Guard()).
         private Vector2 _wanderTarget;
@@ -118,6 +141,17 @@ namespace AIAirHockey
                 return CornerEscape(puckPos);
             }
 
+            // Just struck the puck -- pull back further than normal Follow
+            // distance for a brief window before re-engaging. Checked AFTER
+            // Recover/Corner on purpose: if the puck ends up genuinely
+            // behind us or jammed in a corner during this window, those
+            // safety states still win every time.
+            if (Time.time < _recoilUntil)
+            {
+                _state = AIState.Recoil;
+                return Recoil(puckPos);
+            }
+
             _state = AIState.Follow;
             return Follow(puckPos); // hit and pull back, not camp on the puck
         }
@@ -160,6 +194,19 @@ namespace AIAirHockey
             return new Vector2(puckPos.x, y);
         }
 
+        // RECOIL: just struck the puck -- pull back noticeably further
+        // than normal Follow distance, on purpose ignoring exactly where
+        // the puck wobbles to during this brief window. This is what
+        // turns contact into one clean hit-and-separate instead of the
+        // paddle re-closing to point-blank range every frame and looking
+        // like it's dribbling/pushing the puck along.
+        private Vector2 Recoil(Vector2 puckPos)
+        {
+            float offset = _puckRadius * RecoilBehindMult;
+            float y = Mathf.Min(puckPos.y + offset, _maxY);
+            return new Vector2(puckPos.x, y);
+        }
+
         // Called by BotPaddle whenever a round isn't actively playing
         // (countdown, goal pause, etc.) so we never carry a stale
         // Follow/Recover/Corner state -- and its leftover target -- into
@@ -168,6 +215,7 @@ namespace AIAirHockey
         {
             _state = AIState.Guard;
             _nextWanderTime = -1f; // forces a fresh wander point next time Guard() runs
+            _recoilUntil = -1f;    // don't carry a stale recoil window into the next round
         }
 
         // RECOVER -----------------------------------------------------
