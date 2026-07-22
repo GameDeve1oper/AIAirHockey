@@ -15,6 +15,14 @@ namespace AIAirHockey
         public Vector2 Position => _rb.position;
         public Vector2 Velocity => _rb.linearVelocity;
         
+        public PlayerSide LastHitter { get; private set; } = PlayerSide.Bottom;
+        private float _maxSpeedMultiplier = 1.0f;
+
+        public void SetMaxSpeedMultiplier(float mult)
+        {
+            _maxSpeedMultiplier = Mathf.Max(0.1f, mult);
+        }
+
         private void Awake()
         {
             EnsureInit();
@@ -91,9 +99,10 @@ namespace AIAirHockey
         {
             if (!_rb.simulated) return;
             float speed = _rb.linearVelocity.magnitude;
-            if (speed > _config.puckMaxSpeed)
-                _rb.linearVelocity = _rb.linearVelocity.normalized * _config.puckMaxSpeed;
-            else if (speed > 0.01f && speed < _config.puckMinSpeedAfterHit)
+            float effectiveMaxSpeed = (_config != null ? _config.puckMaxSpeed : 14f) * _maxSpeedMultiplier;
+            if (speed > effectiveMaxSpeed)
+                _rb.linearVelocity = _rb.linearVelocity.normalized * effectiveMaxSpeed;
+            else if (speed > 0.01f && _config != null && speed < _config.puckMinSpeedAfterHit)
                 _rb.linearVelocity = _rb.linearVelocity.normalized * _config.puckMinSpeedAfterHit;
 
             ClampInsideBoard();
@@ -174,6 +183,9 @@ namespace AIAirHockey
 
             if (layer == LayerMask.NameToLayer("Paddle"))
             {
+                var paddleComponent = collision.gameObject.GetComponent<Paddle>();
+                if (paddleComponent != null) LastHitter = paddleComponent.Side;
+
                 AudioManager.Instance.Play(SoundId.PaddleHit);
                 // Feel: punch + flash the paddle that was hit.
                 var punch = collision.gameObject.GetComponent<ScalePunch>();

@@ -11,17 +11,55 @@ namespace AIAirHockey
 
         private void OnEnable()
         {
-            var data = SaveManager.Instance.Data;
-            _musicSlider.SetValueWithoutNotify(data.musicVolume);
-            _sfxSlider.SetValueWithoutNotify(data.sfxVolume);
+            float musicVol = 0.7f;
+            float sfxVol = 1.0f;
+
+            if (SaveManager.Exists && SaveManager.Instance.Data != null)
+            {
+                var data = SaveManager.Instance.Data;
+                musicVol = data.musicVolume;
+                sfxVol = data.sfxVolume;
+            }
+
+            if (_musicSlider != null)
+            {
+                _musicSlider.SetValueWithoutNotify(musicVol);
+                _musicSlider.onValueChanged.RemoveListener(OnMusicChanged);
+                _musicSlider.onValueChanged.AddListener(OnMusicChanged);
+            }
+
+            if (_sfxSlider != null)
+            {
+                _sfxSlider.SetValueWithoutNotify(sfxVol);
+                _sfxSlider.onValueChanged.RemoveListener(OnSfxChanged);
+                _sfxSlider.onValueChanged.AddListener(OnSfxChanged);
+            }
         }
 
-        public void OnMusicChanged(float v) => AudioManager.Instance.SetMusicVolume(v);
+        private void OnDisable()
+        {
+            if (_musicSlider != null) _musicSlider.onValueChanged.RemoveListener(OnMusicChanged);
+            if (_sfxSlider != null) _sfxSlider.onValueChanged.RemoveListener(OnSfxChanged);
+        }
+
+        public void OnMusicChanged(float v)
+        {
+            if (AudioManager.Exists)
+                AudioManager.Instance.SetMusicVolume(v);
+        }
+
         public void OnSfxChanged(float v)
         {
-            AudioManager.Instance.SetSfxVolume(v);
-            AudioManager.Instance.Play(SoundId.ButtonClick); // audible preview
+            if (AudioManager.Exists)
+            {
+                AudioManager.Instance.SetSfxVolume(v);
+                AudioManager.Instance.Play(SoundId.ButtonClick);
+            }
         }
-        public void SaveSettings() => SaveManager.Instance.Save();
+
+        public void SaveSettings()
+        {
+            if (SaveManager.Exists) SaveManager.Instance.Save();
+        }
     }
 }

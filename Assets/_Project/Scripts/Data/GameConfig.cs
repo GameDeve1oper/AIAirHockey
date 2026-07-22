@@ -36,5 +36,13 @@ namespace AIAirHockey
                  "Must match the actual gap in your level geometry, so the " +
                  "puck's safety clamp doesn't block legitimate goals.")]
         public float goalHalfWidth = 1.0f;
+
+        [Header("Power-Ups")]
+        public float powerUpFirstSpawnMin = 6.0f;
+        public float powerUpFirstSpawnMax = 10.0f;
+        public float powerUpSpawnIntervalMin = 12.0f;
+        public float powerUpSpawnIntervalMax = 18.0f;
+        public float powerUpLifetime = 8.0f;
+        public int powerUpMaxActive = 1;
     }
 }

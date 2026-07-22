@@ -43,22 +43,47 @@ namespace AIAirHockey
         // Reads saved volumes and pushes them to the mixer.
         public void ApplySavedVolumes()
         {
-            var data = SaveManager.Instance.Data;
-            SetMusicVolume(data.musicVolume);
-            SetSfxVolume(data.sfxVolume);
+            if (SaveManager.Exists && SaveManager.Instance.Data != null)
+            {
+                var data = SaveManager.Instance.Data;
+                SetMusicVolume(data.musicVolume);
+                SetSfxVolume(data.sfxVolume);
+            }
         }
 
-        // Volume 0..1 converted to decibels for the mixer.
+        // Volume 0..1 converted to decibels for the mixer + direct AudioSource volume.
         public void SetMusicVolume(float v01)
         {
-            SaveManager.Instance.Data.musicVolume = v01;
-            _mixer.SetFloat(_musicParam, LinearToDb(v01));
+            v01 = Mathf.Clamp01(v01);
+            if (SaveManager.Exists && SaveManager.Instance.Data != null)
+            {
+                SaveManager.Instance.Data.musicVolume = v01;
+            }
+            if (_musicSource != null)
+            {
+                _musicSource.volume = v01;
+            }
+            if (_mixer != null && !string.IsNullOrEmpty(_musicParam))
+            {
+                try { _mixer.SetFloat(_musicParam, LinearToDb(v01)); } catch {}
+            }
         }
 
         public void SetSfxVolume(float v01)
         {
-            SaveManager.Instance.Data.sfxVolume = v01;
-            _mixer.SetFloat(_sfxParam, LinearToDb(v01));
+            v01 = Mathf.Clamp01(v01);
+            if (SaveManager.Exists && SaveManager.Instance.Data != null)
+            {
+                SaveManager.Instance.Data.sfxVolume = v01;
+            }
+            if (_sfxSource != null)
+            {
+                _sfxSource.volume = v01;
+            }
+            if (_mixer != null && !string.IsNullOrEmpty(_sfxParam))
+            {
+                try { _mixer.SetFloat(_sfxParam, LinearToDb(v01)); } catch {}
+            }
         }
 
         private float LinearToDb(float v)

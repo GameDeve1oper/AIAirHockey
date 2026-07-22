@@ -22,6 +22,7 @@ namespace AIAirHockey
         [Header("Effects (assigned later)")]
         [SerializeField] private GameObject _goalParticlePrefab;
         [SerializeField] private GameObject _puckSpawnPrefab;
+        [SerializeField] private GameObject _powerUpPrefab;
 
         private ScoreSystem _score;
         private MatchState _state = MatchState.Idle;
@@ -44,23 +45,24 @@ namespace AIAirHockey
             {
                 if (_goalParticlePrefab != null) PoolManager.Instance.Prewarm(_goalParticlePrefab, 3);
                 if (_puckSpawnPrefab != null) PoolManager.Instance.Prewarm(_puckSpawnPrefab, 2);
+                if (_powerUpPrefab != null) PoolManager.Instance.Prewarm(_powerUpPrefab, 3);
             }
 
             _score = new ScoreSystem();
             _score.Reset();
             SetupForMode();
             AudioManager.Instance.PlayGameMusic();
-            // First puck of the match always spawns dead-center, at rest.
-            StartRound(Vector2.zero);
+            if (_puck != null) StartRound(Vector2.zero);
         }
 
         // Enable the correct top paddle based on selected mode.     
         private void SetupForMode()
         {
-            bool vsBot = GameManager.Instance.SelectedMode == GameMode.PlayerVsBot;
+            bool vsBot = !GameManager.Exists || GameManager.Instance.SelectedMode == GameMode.PlayerVsBot;
+            Difficulty diff = GameManager.Exists ? GameManager.Instance.SelectedDifficulty : Difficulty.Medium;
 
             if (vsBot && _botPaddle != null)
-                _botPaddle.Configure(GameManager.Instance.SelectedDifficulty);
+                _botPaddle.Configure(diff);
 
             if (_botPaddle != null) _botPaddle.gameObject.SetActive(vsBot);
             if (_player2Paddle != null) _player2Paddle.gameObject.SetActive(!vsBot);
@@ -73,6 +75,34 @@ namespace AIAirHockey
         private void StartRound(Vector2 spawnPosition)
         {
             SetState(MatchState.Countdown);
+
+            // Safeguard #1: Destroy any orphaned secondary pucks from previous rounds
+            var pucks = Object.FindObjectsOfType<Puck>();
+            foreach (var p in pucks)
+            {
+                if (p != _puck)
+                {
+                    Object.Destroy(p.gameObject);
+                }
+            }
+
+            // Safeguard #2: Reset paddle scales and positions to standard guard positions
+            if (_playerPaddle != null) 
+            {
+                _playerPaddle.SetScaleModifier(1.0f);
+                _playerPaddle.ResetPosition(new Vector2(0f, -3.6f));
+            }
+            if (_botPaddle != null) 
+            {
+                _botPaddle.SetScaleModifier(1.0f);
+                _botPaddle.ResetPosition(new Vector2(0f, 4.1f));
+            }
+            if (_player2Paddle != null) 
+            {
+                _player2Paddle.SetScaleModifier(1.0f);
+                _player2Paddle.ResetPosition(new Vector2(0f, 4.1f));
+            }
+
             _puck.ResetPuck(spawnPosition, Vector2.zero);
             _puck.Freeze();
             _goalTop.Arm();
@@ -80,8 +110,6 @@ namespace AIAirHockey
 
             StartCoroutine(_countdown.Run(() =>
             {
-                // Unfreeze with zero velocity (already set above, and Freeze()
-                // never touched it) -- the puck stays put until it's hit.
                 _puck.Unfreeze();
                 if (_puckSpawnPrefab != null && PoolManager.Exists)
                     PoolManager.Instance.SpawnTimed(_puckSpawnPrefab, spawnPosition, Quaternion.identity, 0.6f);
@@ -93,6 +121,10 @@ namespace AIAirHockey
         {
             if (_state != MatchState.Playing) return;
             SetState(MatchState.GoalScored);
+
+            if (_playerPaddle != null) _playerPaddle.ResetPosition(new Vector2(0f, -3.6f));
+            if (_botPaddle != null) _botPaddle.ResetPosition(new Vector2(0f, 4.1f));
+            if (_player2Paddle != null) _player2Paddle.ResetPosition(new Vector2(0f, 4.1f));
 
             // FIX: previously the puck kept simulating/flying after the
             // goal trigger fired, for the entire goalResetDelay (1.2s).

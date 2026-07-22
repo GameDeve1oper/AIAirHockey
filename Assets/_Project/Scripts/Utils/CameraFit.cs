@@ -19,11 +19,26 @@ namespace AIAirHockey
 
         private void Awake()
         {
-            var cam = GetComponent<Camera>();
-            if (_config == null || !cam.orthographic) return;
+            transform.localScale = Vector3.one;
+            FitCamera();
+        }
 
-            float requiredHalfWidth = _config.boardHalfWidth + _horizontalPadding;
-            float requiredSize = requiredHalfWidth / cam.aspect;
+        private void Update()
+        {
+            if (transform.localScale != Vector3.one)
+                transform.localScale = Vector3.one;
+            FitCamera();
+        }
+
+        private void FitCamera()
+        {
+            var cam = GetComponent<Camera>();
+            if (cam == null || !cam.orthographic) return;
+
+            float boardHW = _config != null ? _config.boardHalfWidth : 2.6f;
+            float requiredHalfWidth = boardHW + _horizontalPadding;
+            float aspect = cam.aspect > 0.01f ? cam.aspect : (9f / 16f);
+            float requiredSize = requiredHalfWidth / aspect;
 
             cam.orthographicSize = Mathf.Max(_designedSize, requiredSize);
         }

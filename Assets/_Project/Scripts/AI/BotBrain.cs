@@ -3,75 +3,29 @@ using UnityEngine;
 
 namespace AIAirHockey
 {
-    // Pure decision logic for the bot paddle. Given the current paddle and
-    // puck positions, returns the world-space point BotPaddle should move
-    // toward this physics step.
-    //
-    // Deliberately simple: four states, decided purely from *current*
-    // positions. No bounce prediction, no reaction lag, no aim error.
-    // Difficulty only ever changes how fast the paddle can move
-    // (see DifficultyProfile / BotPaddle) -- never what it decides to do.
-    //
-    // States, checked in this priority order every step:
-    //
-    //   RECOVER  the puck slipped in BEHIND us (closer to our own goal
-    //            than we are). Pushing straight at it now would shove it
-    //            further toward our own net, so we step around it and
-    //            tuck in behind it first, then hand off to FOLLOW to
-    //            push it back out.
-    //   CORNER   puck and paddle are jammed together near the same side
-    //            wall, deep in our half. Pinning it flat against the wall
-    //            doesn't lead anywhere, so we slide to the inside of the
-    //            puck (toward center) to open a clean angle, then FOLLOW
-    //            takes over and strikes it out.
-    //   FOLLOW   normal case: puck is on our side and not in trouble.
-    //            Chase it directly -- full commit, anywhere on our half.
-    //   RECOIL   we just physically struck the puck. Pull back further
-    //            than normal Follow distance for a brief window, ignoring
-    //            the puck's minor post-hit wobble, so contact reads as a
-    //            single clean hit-and-separate instead of continuous
-    //            dribbling/pushing. Recover/Corner still preempt this --
-    //            safety always wins over the cosmetic pull-back.
-    //   GUARD    puck is on the player's side. Wander randomly around our
-    //            own half (NOT tracking the puck's x -- that looked too
-    //            robotic) so we look relaxed, but react instantly the
-    //            moment the puck crosses back onto our side.
     public enum AIState { Guard, Follow, Recover, Corner, Recoil }
 
     public class BotBrain
     {
         // --- tuning constants -----------------------------------------
-        // These describe HOW the bot behaves and are shared by every
-        // difficulty tier (only moveSpeed differs between tiers). Most
-        // are expressed relative to board/puck size so they scale
-        // automatically if those are ever changed in GameConfig.
-        private const float SideHysteresis      = 0.05f; // stops state flicker right at the center line
+        private const float SideHysteresis      = 0.05f; // stops state flicker right at center line
         private const float RecoverMargin       = 0.15f; // puck must be this far past us to count as "behind"
-        private const float RecoverBehindMult   = 3f;    // how far behind the puck to tuck in, x puck radius
-        private const float RecoverDodgeMult    = 3f;    // sideways step on the way in, so we go AROUND the puck
-        private const float CornerJamMult       = 3f;    // paddle-puck distance below which we call it "jammed", x puck radius
-        private const float CornerEscapeMult    = 5f;    // sideways step to open an angle in a corner, x puck radius
-        private const float CornerBehindMult    = 1f;    // slight behind-offset while escaping a corner, x puck radius
-        private const float CornerWallFraction  = 0.3f;  // last 30% of the half-width counts as "near the wall"
-        private const float CornerDepthFraction = 0.35f; // must be at least this far into our half to count as a corner
+        private const float RecoverBehindMult   = 3f;    // how far behind puck to tuck in, x puck radius
+        private const float RecoverDodgeMult    = 3f;    // sideways step on way in, x puck radius
+        private const float CornerJamMult       = 3f;    // distance below which we call it "jammed", x puck radius
+        private const float CornerEscapeMult    = 5f;    // sideways step to open angle in corner, x puck radius
+        private const float CornerBehindMult    = 1f;    // slight behind-offset while escaping corner, x puck radius
+        private const float CornerWallFraction  = 0.3f;  // last 30% of half-width counts as "near wall"
+        private const float CornerDepthFraction = 0.35f; // must be at least this far into our half for corner
 
-        // FOLLOW offset: in FOLLOW state, target this distance BEHIND (upward,
-        // toward our own goal) from the puck instead of directly on it. This
-        // lets the paddle hit cleanly and overshoots naturally past the puck
-        // instead of getting stuck pinning it and bouncing it repeatedly.
-        private const float FollowBehindMult    = 1.0f;  // x paddle radius, offset toward own goal
-
-        // RECOIL: how long and how far we pull back right after physically
-        // striking the puck, before resuming normal Follow/Guard logic.
+        private const float FollowBehindMult    = 1.0f;  // x puck radius, offset toward own goal
         private const float RecoilDuration      = 0.18f; // seconds
-        private const float RecoilBehindMult    = 2.5f;  // x puck radius -- noticeably more than FollowBehindMult
+        private const float RecoilBehindMult    = 2.5f;  // x puck radius
 
-        // Idle wander, used by GUARD instead of mirroring the puck's x --
-        // looks relaxed/human rather than robotically tracking the player.
-        private const float WanderIntervalMin   = 0.5f;  // seconds between picking a new wander point
-        private const float WanderIntervalMax   = 1f;
+        private const float WanderIntervalMin   = 0.5f;  // seconds between picking new wander point
+        private const float WanderIntervalMax   = 1.0f;
         private const float WanderYMinFraction  = 0.1f;  // wander roams across most of our half...
-        private const float WanderYMaxFraction  = 0.85f; // ...but stops short of the goal mouth
+        private const float WanderYMaxFraction  = 0.85f; // ...but stops short of goal mouth
 
         private readonly float _halfWidth;
         private readonly float _halfHeight;
@@ -86,28 +40,39 @@ namespace AIAirHockey
         private AIState _state = AIState.Guard;
         public AIState CurrentState => _state;
 
-        // Set by NotifyHit() whenever the paddle physically contacts the
-        // puck (called from BotPaddle, via Puck's existing collision
-        // handler). Decide() checks Time.time against this every frame --
-        // no per-frame work needed when nothing's been hit recently.
+        private DifficultyProfile _profile;
+
+        // --- Reaction & Perception State ---
+        private float _perceptionFrozenUntil = -1f;
+        private Vector2 _frozenPuckPos;
+        private Vector2 _frozenPuckVel;
+        private Vector2 _lastPuckVel;
+
+        // --- Prediction State ---
+        private float _currentPredictedX;
+
+        // --- Aim Error State ---
+        private float _currentAimOffset;
+        private bool _wasInFollow;
+
+        // --- Recoil State ---
         private float _recoilUntil = -1f;
 
-        // Called the instant the paddle physically touches the puck.
-        public void NotifyHit()
-        {
-            _recoilUntil = Time.time + RecoilDuration;
-        }
-
-        // Idle wander state (see Guard()).
+        // --- Idle Wander State ---
         private Vector2 _wanderTarget;
         private float _nextWanderTime = -1f;
 
-        public BotBrain(GameConfig config)
+        // Debug Properties for Gizmos
+        public Vector2 DebugRawPredictionPoint { get; private set; }
+        public Vector2 CurrentTarget { get; private set; }
+
+        public BotBrain(GameConfig config, DifficultyProfile profile = null)
         {
+            _profile      = profile;
             _halfWidth    = config != null ? config.boardHalfWidth  : 2.6f;
             _halfHeight   = config != null ? config.boardHalfHeight : 4.8f;
             _puckRadius   = config != null ? config.puckRadius      : 0.3f;
-            _paddleMargin = 0.35f; // mirrors Paddle.ClampToHalf's margin
+            _paddleMargin = 0.35f;
 
             _cornerWallBand = _halfWidth  * CornerWallFraction;
             _cornerDepth    = _halfHeight * CornerDepthFraction;
@@ -115,55 +80,170 @@ namespace AIAirHockey
             _maxY           = _halfHeight - _paddleMargin;
         }
 
-        public Vector2 Decide(Vector2 paddlePos, Vector2 puckPos)
+        public void SetProfile(DifficultyProfile profile)
         {
-            // Small hysteresis around the center line so a puck resting
-            // right on y=0 doesn't make the bot flicker between states.
+            _profile = profile;
+        }
+
+        public void NotifyHit()
+        {
+            _recoilUntil = Time.time + RecoilDuration;
+            // Also trigger perception refresh and sample a new aim error offset for the hit response
+            _perceptionFrozenUntil = -1f;
+            SampleNewAimOffset();
+        }
+
+        public Vector2 Decide(Vector2 paddlePos, Vector2 actualPuckPos, Vector2 actualPuckVel, System.Collections.Generic.List<PowerUpItem> activePowerUps = null)
+        {
+            if (activePowerUps == null && PowerUpManager.Exists)
+            {
+                activePowerUps = PowerUpManager.Instance.ActivePowerUpItems;
+            }
+
+            // 1. PERCEPTUAL FREEZE & REACTION TIME
+            // Check for major event (velocity direction flip or impact)
+            bool velDirectionFlipped = Vector2.Dot(_lastPuckVel.normalized, actualPuckVel.normalized) < 0.2f
+                                       && actualPuckVel.sqrMagnitude > 1.0f;
+            _lastPuckVel = actualPuckVel;
+
+            if (velDirectionFlipped && _profile != null && _profile.reactionTime > 0f)
+            {
+                _perceptionFrozenUntil = Time.time + _profile.reactionTime;
+                _frozenPuckPos = actualPuckPos;
+                _frozenPuckVel = actualPuckVel;
+            }
+
+            Vector2 perceivedPos = Time.time < _perceptionFrozenUntil ? _frozenPuckPos : actualPuckPos;
+            Vector2 perceivedVel = Time.time < _perceptionFrozenUntil ? _frozenPuckVel : actualPuckVel;
+
+            // 2. GOAL-LINE EMERGENCY OVERRIDE (Defense takes absolute priority - ignores power-ups)
+            float emergencyY = _halfHeight * 0.55f;
+            if (actualPuckPos.y > emergencyY)
+            {
+                float danger = Mathf.Clamp01((actualPuckPos.y - emergencyY) / (_halfHeight - emergencyY - _paddleMargin));
+                perceivedPos = Vector2.Lerp(perceivedPos, actualPuckPos, danger);
+                perceivedVel = Vector2.Lerp(perceivedVel, actualPuckVel, danger);
+            }
+
+            // 3. CONTINUOUS TRAJECTORY PREDICTION (EXPONENTIAL LERP)
+            if (_profile != null && _profile.predictionTime > 0f && perceivedVel.y > 0.1f)
+            {
+                float yTarget = perceivedPos.y + _puckRadius * FollowBehindMult;
+                float tReach = (yTarget - perceivedPos.y) / perceivedVel.y;
+
+                if (tReach > 0f && tReach <= _profile.predictionTime)
+                {
+                    float xRaw = perceivedPos.x + perceivedVel.x * tReach;
+                    float limitX = _halfWidth - _puckRadius;
+
+                    if (Mathf.Abs(xRaw) > limitX)
+                    {
+                        float over = Mathf.Abs(xRaw) - limitX;
+                        float sign = Mathf.Sign(xRaw);
+                        xRaw = sign * (limitX - over);
+
+                        if (Random.value < _profile.mistakeChance)
+                        {
+                            xRaw += sign * Random.Range(0.15f, 0.4f);
+                        }
+                    }
+
+                    xRaw = Mathf.Clamp(xRaw, -_reachX, _reachX);
+                    DebugRawPredictionPoint = new Vector2(xRaw, yTarget);
+
+                    // Continuous Exponential Lerp Blend toward raw prediction
+                    _currentPredictedX = Mathf.Lerp(_currentPredictedX, xRaw, 15f * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    _currentPredictedX = Mathf.Lerp(_currentPredictedX, perceivedPos.x, 15f * Time.fixedDeltaTime);
+                    DebugRawPredictionPoint = Vector2.zero;
+                }
+            }
+            else
+            {
+                _currentPredictedX = Mathf.Lerp(_currentPredictedX, perceivedPos.x, 15f * Time.fixedDeltaTime);
+                DebugRawPredictionPoint = Vector2.zero;
+            }
+
+            // 4. STATE MACHINE EVALUATION
+            // Puck is considered engageable if it's on bot's half (y > 0) OR if it's sitting neutral near center (abs(y) < 0.35f)
+            bool isPuckAtCenter = Mathf.Abs(perceivedPos.x) < 0.8f && Mathf.Abs(perceivedPos.y) < 0.35f && perceivedVel.sqrMagnitude < 4.0f;
             bool onBotSide = _state == AIState.Guard
-                ? puckPos.y > SideHysteresis
-                : puckPos.y > -SideHysteresis;
+                ? (perceivedPos.y > -0.05f || isPuckAtCenter)
+                : (perceivedPos.y > -SideHysteresis || isPuckAtCenter);
 
             if (!onBotSide)
             {
                 _state = AIState.Guard;
-                return Guard();
+                _wasInFollow = false;
+                CurrentTarget = Guard(activePowerUps);
+                return CurrentTarget;
             }
 
-            if (IsBehind(paddlePos, puckPos))
+            // Defense state 1: Recover (Ignores power-ups)
+            if (IsBehind(paddlePos, perceivedPos))
             {
                 _state = AIState.Recover;
-                return Recover(paddlePos, puckPos);
+                _wasInFollow = false;
+                CurrentTarget = Recover(paddlePos, perceivedPos);
+                return CurrentTarget;
             }
 
-            if (IsCornerJam(paddlePos, puckPos))
+            // Defense state 2: Corner Jam (Ignores power-ups)
+            if (IsCornerJam(paddlePos, perceivedPos))
             {
                 _state = AIState.Corner;
-                return CornerEscape(puckPos);
+                _wasInFollow = false;
+                CurrentTarget = CornerEscape(perceivedPos);
+                return CurrentTarget;
             }
 
-            // Just struck the puck -- pull back further than normal Follow
-            // distance for a brief window before re-engaging. Checked AFTER
-            // Recover/Corner on purpose: if the puck ends up genuinely
-            // behind us or jammed in a corner during this window, those
-            // safety states still win every time.
+            // Defense state 3: Recoil (Ignores power-ups)
             if (Time.time < _recoilUntil)
             {
                 _state = AIState.Recoil;
-                return Recoil(puckPos);
+                CurrentTarget = Recoil(perceivedPos);
+                return CurrentTarget;
             }
 
+            // 5. FOLLOW STATE (WITH PER-STROKE STATIC AIM ERROR & OPTIONAL POWER-UP BIAS)
             _state = AIState.Follow;
-            return Follow(puckPos); // hit and pull back, not camp on the puck
+            if (!_wasInFollow)
+            {
+                _wasInFollow = true;
+                SampleNewAimOffset();
+            }
+
+            CurrentTarget = Follow(perceivedPos, activePowerUps);
+            return CurrentTarget;
         }
 
-        // GUARD: idle wander. Deliberately NOT tracking puck.x -- that
-        // looked like the bot was robotically mirroring the player. Picks
-        // a new random point across most of our half every ~0.5-1s. The
-        // moment the puck crosses back onto our side, Decide() stops
-        // calling this at all and reacts immediately on the very next
-        // physics step -- there's no special "abort" needed here.
-        private Vector2 Guard()
+        private void SampleNewAimOffset()
         {
+            if (_profile == null || _profile.aimError <= 0f)
+            {
+                _currentAimOffset = 0f;
+                return;
+            }
+            float sign = Random.value < 0.5f ? -1f : 1f;
+            _currentAimOffset = sign * Random.Range(0.05f, _profile.aimError);
+        }
+
+        private Vector2 Guard(System.Collections.Generic.List<PowerUpItem> activePowerUps = null)
+        {
+            // Opportunistic seeking ONLY in Guard state: if a power-up is sitting on bot's half (y > 0.5u), seek it
+            if (activePowerUps != null && activePowerUps.Count > 0)
+            {
+                foreach (var item in activePowerUps)
+                {
+                    if (item != null && item.gameObject.activeInHierarchy && item.Position.y > 0.5f)
+                    {
+                        return item.Position;
+                    }
+                }
+            }
+
             if (Time.time >= _nextWanderTime)
             {
                 _wanderTarget = PickWanderPoint();
@@ -179,46 +259,49 @@ namespace AIAirHockey
             return new Vector2(x, y);
         }
 
-        // FOLLOW: chase the puck, but target a point BEHIND it (toward our own
-        // goal) instead of its exact center. This lets us hit it cleanly and
-        // naturally overshoot past it instead of camping on it and bouncing
-        // it repeatedly. Full commit -- anywhere on our half.
-        private Vector2 Follow(Vector2 puckPos)
+        private Vector2 Follow(Vector2 perceivedPuckPos, System.Collections.Generic.List<PowerUpItem> activePowerUps = null)
         {
-            // Offset upward (toward our own goal at +Y) so we stay behind
-            // the puck and separate naturally after impact.
+            float targetX = Mathf.Clamp(_currentPredictedX + _currentAimOffset, -_reachX, _reachX);
             float offset = _puckRadius * FollowBehindMult;
-            float y = Mathf.Min(puckPos.y + offset, _maxY);
+            float targetY = Mathf.Min(perceivedPuckPos.y + offset, _maxY);
 
-            // Still chase the x, but the y offset pulls us back.
-            return new Vector2(puckPos.x, y);
+            // Path-intercept bias ONLY in Follow state: if a power-up lies on bot's half near movement path, bias X slightly
+            if (activePowerUps != null && activePowerUps.Count > 0)
+            {
+                foreach (var item in activePowerUps)
+                {
+                    if (item != null && item.gameObject.activeInHierarchy && item.Position.y > 0.5f)
+                    {
+                        if (Mathf.Abs(item.Position.y - targetY) < 1.2f)
+                        {
+                            targetX = Mathf.Lerp(targetX, item.Position.x, 0.35f);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return new Vector2(targetX, targetY);
         }
 
-        // RECOIL: just struck the puck -- pull back noticeably further
-        // than normal Follow distance, on purpose ignoring exactly where
-        // the puck wobbles to during this brief window. This is what
-        // turns contact into one clean hit-and-separate instead of the
-        // paddle re-closing to point-blank range every frame and looking
-        // like it's dribbling/pushing the puck along.
-        private Vector2 Recoil(Vector2 puckPos)
+        private Vector2 Recoil(Vector2 perceivedPuckPos)
         {
             float offset = _puckRadius * RecoilBehindMult;
-            float y = Mathf.Min(puckPos.y + offset, _maxY);
-            return new Vector2(puckPos.x, y);
+            float y = Mathf.Min(perceivedPuckPos.y + offset, _maxY);
+            return new Vector2(perceivedPuckPos.x, y);
         }
 
-        // Called by BotPaddle whenever a round isn't actively playing
-        // (countdown, goal pause, etc.) so we never carry a stale
-        // Follow/Recover/Corner state -- and its leftover target -- into
-        // the next round's frozen puck position.
         public void ResetToGuard()
         {
             _state = AIState.Guard;
-            _nextWanderTime = -1f; // forces a fresh wander point next time Guard() runs
-            _recoilUntil = -1f;    // don't carry a stale recoil window into the next round
+            _nextWanderTime = -1f;
+            _recoilUntil = -1f;
+            _wasInFollow = false;
+            _perceptionFrozenUntil = -1f;
+            _currentPredictedX = 0f;
+            _currentAimOffset = 0f;
         }
 
-        // RECOVER -----------------------------------------------------
         private bool IsBehind(Vector2 paddlePos, Vector2 puckPos)
         {
             return puckPos.y > paddlePos.y + RecoverMargin;
@@ -226,9 +309,6 @@ namespace AIAirHockey
 
         private Vector2 Recover(Vector2 paddlePos, Vector2 puckPos)
         {
-            // Step around the puck rather than straight through it: dodge
-            // to whichever side we're already closer to, so we don't ram
-            // it from below on the way to tucking in behind it.
             float dodgeSide = paddlePos.x <= puckPos.x ? -1f : 1f;
             float x = puckPos.x + dodgeSide * (_puckRadius * RecoverDodgeMult);
             x = Mathf.Clamp(x, -_reachX, _reachX);
@@ -237,7 +317,6 @@ namespace AIAirHockey
             return new Vector2(x, y);
         }
 
-        // CORNER --------------------------------------------------------
         private bool IsCornerJam(Vector2 paddlePos, Vector2 puckPos)
         {
             bool puckNearWall   = (_halfWidth - Mathf.Abs(puckPos.x)) < _cornerWallBand;
@@ -250,10 +329,6 @@ namespace AIAirHockey
 
         private Vector2 CornerEscape(Vector2 puckPos)
         {
-            // Slide to the inside of the puck (toward center, away from
-            // the wall) to open a hitting angle, with a slight behind-
-            // offset so the eventual strike has some forward push to it
-            // instead of being a flat sideways shove.
             float wallSign = puckPos.x >= 0f ? 1f : -1f;
             float x = puckPos.x - wallSign * (_puckRadius * CornerEscapeMult);
             x = Mathf.Clamp(x, -_reachX, _reachX);

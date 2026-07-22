@@ -6,18 +6,15 @@ namespace AIAirHockey
     // Actuation layer for the bot. Asks BotBrain for a target every physics
     // step and follows it with a critically-damped SmoothDamp (fluid, no
     // overshoot, cheap on mobile). Follow smoothing is fixed and identical
-    // at every difficulty -- only moveSpeed (from DifficultyProfile)
-    // changes how the bot feels between tiers.
-    //
-    // Only moves while MatchState.Playing. During Countdown/GoalScored/
-    // Paused/etc. it sits completely still -- and forces BotBrain back to
-    // Guard each time -- so it never carries a stale Follow/Recover/Corner
-    // target into the next round's frozen, teleported puck.
+    // at every difficulty -- moveSpeed and perception parameters (from
+    // DifficultyProfile) change how the bot feels between tiers.
     public class BotPaddle : Paddle
     {
         [SerializeField] private Puck _puck; // assigned in Inspector
 
-        // Shared by every difficulty tier on purpose -- see DifficultyProfile.
+        [Header("Debug")]
+        [SerializeField] private bool _showDebugGizmo = false;
+
         private const float FollowSmoothTime = 0.06f;
 
         private BotBrain _brain;
@@ -25,13 +22,8 @@ namespace AIAirHockey
         private Vector2 _smoothVelocity;
         private bool _isPlaying;
 
-        // Exposed for debugging (e.g. an on-screen label or gizmo).
         public AIState CurrentState => _brain != null ? _brain.CurrentState : AIState.Guard;
 
-        // Called by Puck.OnCollisionEnter2D the instant this paddle
-        // physically touches the puck -- triggers a brief recoil/pull-back
-        // in BotBrain instead of immediately re-closing to point-blank
-        // range. See BotBrain's RECOIL state for the full reasoning.
         public void NotifyHit() => _brain?.NotifyHit();
 
         private void OnEnable()
@@ -44,7 +36,6 @@ namespace AIAirHockey
             EventBus.OnMatchStateChanged -= HandleMatchStateChanged;
         }
 
-        // Called by MatchManager.SetupForMode with the chosen difficulty.
         public void Configure(Difficulty difficulty)
         {
             if (_config == null)
@@ -54,21 +45,17 @@ namespace AIAirHockey
             }
 
             _profile = LoadProfile(difficulty);
-            _brain = new BotBrain(_config);
+            _brain = new BotBrain(_config, _profile);
             _side = PlayerSide.Top;
         }
 
         private DifficultyProfile LoadProfile(Difficulty d)
         {
-            // Profiles live in Resources/Difficulty named Difficulty_<Name>.
             string path = "Difficulty/Difficulty_" + d.ToString();
             DifficultyProfile p = Resources.Load<DifficultyProfile>(path);
 
             if (p == null)
             {
-                // Graceful fallback instead of crashing when the asset is
-                // missing: build a default profile in memory so the match
-                // still runs. (Field initializers supply a sane default.)
                 Debug.LogWarning("BotPaddle: missing '" + path + "', using built-in defaults.");
                 p = ScriptableObject.CreateInstance<DifficultyProfile>();
                 p.difficulty = d;
@@ -82,11 +69,6 @@ namespace AIAirHockey
 
             if (!_isPlaying)
             {
-                // Round isn't live (countdown ticking, goal just scored,
-                // paused, etc.) -- nobody needs to move. Clear any stale
-                // state/velocity now so the moment Playing resumes we
-                // start clean instead of snapping in from wherever the
-                // last goal left us.
                 _brain?.ResetToGuard();
                 _smoothVelocity = Vector2.zero;
             }
@@ -94,13 +76,11 @@ namespace AIAirHockey
 
         private void FixedUpdate()
         {
-            if (!_isPlaying) return; // frozen during countdown / goal pause / paused / etc.
+            if (!_isPlaying) return;
             if (_brain == null || _profile == null || _puck == null) return;
 
-            Vector2 target = _brain.Decide(_rb.position, _puck.Position);
+            Vector2 target = _brain.Decide(_rb.position, _puck.Position, _puck.Velocity);
 
-            // Critically-damped follow: smooth and fluid. Smooth time is
-            // fixed; only max speed comes from the difficulty profile.
             Vector2 next = Vector2.SmoothDamp(
                 _rb.position,
                 target,
@@ -111,6 +91,31 @@ namespace AIAirHockey
 
             next = ClampToHalf(next);
             _rb.MovePosition(next);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!_showDebugGizmo || !Application.isPlaying) return;
+            if (_brain == null || _puck == null || _rb == null) return;
+
+            // 1. Raw prediction path & endpoint (Cyan)
+            Gizmos.color = Color.cyan;
+            Vector2 rawPred = _brain.DebugRawPredictionPoint;
+            if (rawPred.sqrMagnitude > 0.01f)
+            {
+                Gizmos.DrawLine(_puck.Position, rawPred);
+                Gizmos.DrawWireSphere(rawPred, 0.15f);
+            }
+
+            // 2. Filtered Target Coordinate (Yellow)
+            Gizmos.color = Color.yellow;
+            Vector2 currentTarget = _brain.CurrentTarget;
+            Gizmos.DrawWireSphere(currentTarget, 0.25f);
+            Gizmos.DrawLine(_rb.position, currentTarget);
+
+            // 3. Actual Paddle Position (Green)
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(_rb.position, 0.35f);
         }
     }
 }

@@ -22,9 +22,20 @@ namespace AIAirHockey
         public Difficulty difficulty = Difficulty.Medium;
 
         [Header("Movement")]
-        [Tooltip("Max speed the bot paddle can move, in world units/sec. " +
-                 "This is the ONLY thing that should differ between tiers " +
-                 "-- e.g. Easy ~6, Medium ~10, Hard ~16, HumanLike ~12.")]
+        [Tooltip("Max speed the bot paddle can move, in world units/sec.")]
         public float moveSpeed = 12f;
+
+        [Header("AI Intelligence & Perception")]
+        [Tooltip("Perception freeze delay on major hit/bounce events, in seconds.")]
+        public float reactionTime = 0.16f;
+
+        [Tooltip("Trajectory prediction lookahead duration, in seconds. 0 = purely reactive.")]
+        public float predictionTime = 0.35f;
+
+        [Tooltip("Per-stroke static target offset distance, in world units.")]
+        public float aimError = 0.25f;
+
+        [Tooltip("Chance (0..1) to misjudge corner bank shots.")]
+        public float mistakeChance = 0.10f;
     }
 }

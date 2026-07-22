@@ -36,6 +36,16 @@ namespace AIAirHockey
         Top     // bot or player 2
     }
 
+    // Power-up types available during gameplay.
+    public enum PowerUpType
+    {
+        SpeedPuck,
+        TitanPaddle,
+        GoalShield,
+        TimeWarp,
+        MultiPuck
+    }
+
     // Every sound effect id. AudioManager maps these to clips.
     public enum SoundId
     {

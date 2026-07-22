@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Difficulty_HumanLike
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyProfile
   difficulty: 3
-  moveSpeed: 13
+  moveSpeed: 12
+  reactionTime: 0.12
+  predictionTime: 0.6
+  aimError: 0.15
+  mistakeChance: 0.05

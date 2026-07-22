@@ -25,6 +25,15 @@ namespace AIAirHockey
         // Countdown tick. Argument: current number (3,2,1) or 0 for GO.
         public static event Action<int> OnCountdownTick;
 
+        // Power-up spawned. Arguments: type, position.
+        public static event Action<PowerUpType, UnityEngine.Vector2> OnPowerUpSpawned;
+
+        // Power-up collected. Arguments: type, collector.
+        public static event Action<PowerUpType, PlayerSide> OnPowerUpCollected;
+
+        // Power-up expired. Arguments: type, collector.
+        public static event Action<PowerUpType, PlayerSide> OnPowerUpExpired;
+
         // --- Raise methods (call these to fire an event) ---
         public static void RaiseGoalScored(PlayerSide concededSide) => OnGoalScored?.Invoke(concededSide);
         public static void RaiseScoreChanged(int bottom, int top) => OnScoreChanged?.Invoke(bottom, top);
@@ -32,6 +41,9 @@ namespace AIAirHockey
         public static void RaiseMatchFinished(PlayerSide winner) => OnMatchFinished?.Invoke(winner);
         public static void RaisePuckImpact(UnityEngine.Vector2 pos) => OnPuckImpact?.Invoke(pos);
         public static void RaiseCountdownTick(int n) => OnCountdownTick?.Invoke(n);
+        public static void RaisePowerUpSpawned(PowerUpType type, UnityEngine.Vector2 pos) => OnPowerUpSpawned?.Invoke(type, pos);
+        public static void RaisePowerUpCollected(PowerUpType type, PlayerSide side) => OnPowerUpCollected?.Invoke(type, side);
+        public static void RaisePowerUpExpired(PowerUpType type, PlayerSide side) => OnPowerUpExpired?.Invoke(type, side);
 
         // Clears all subscribers. Call when leaving Gameplay so old
         // listeners from a previous match don't linger.
@@ -43,6 +55,9 @@ namespace AIAirHockey
             OnMatchFinished = null;
             OnPuckImpact = null;
             OnCountdownTick = null;
+            OnPowerUpSpawned = null;
+            OnPowerUpCollected = null;
+            OnPowerUpExpired = null;
         }
     }
 }

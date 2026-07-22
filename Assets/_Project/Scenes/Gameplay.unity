@@ -669,6 +669,7 @@ MonoBehaviour:
   _countdown: {fileID: 363815023}
   _goalParticlePrefab: {fileID: 6251332995117685384, guid: 648b8771c181c56489452c93eb5068c1, type: 3}
   _puckSpawnPrefab: {fileID: 6251332995117685384, guid: 7211106363c82484082eee9eda217e03, type: 3}
+  _powerUpPrefab: {fileID: 0}
 --- !u!4 &363815025
 Transform:
   m_ObjectHideFlags: 0
@@ -997,7 +998,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 0.51, y: 0.51, z: 0.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -5769,11 +5770,65 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.316, y: 0.34239998, z: 0.32}
+  m_LocalScale: {x: 0.32, y: 0.34, z: 0.32}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &2108871346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2108871348}
+  - component: {fileID: 2108871347}
+  m_Layer: 0
+  m_Name: PowerUpManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2108871347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108871346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81bddddee845eaf44ba8c847ddeb2420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.PowerUpManager
+  _config: {fileID: 11400000, guid: a8c656bc53a8149468530255c5fe2fc0, type: 2}
+  _powerUpPrefab: {fileID: 6608428613178782813, guid: 8991f0c1c8a52b44cbd9080e03fd3817, type: 3}
+  _powerUpSprites:
+  - {fileID: -4200212574415258440, guid: cb47c9a98a4152546bebad97065b8109, type: 3}
+  - {fileID: -420769773444641075, guid: cb47c9a98a4152546bebad97065b8109, type: 3}
+  - {fileID: 2944383833558009167, guid: cb47c9a98a4152546bebad97065b8109, type: 3}
+  - {fileID: 5297841968829605292, guid: cb47c9a98a4152546bebad97065b8109, type: 3}
+  - {fileID: 8570407071394693403, guid: cb47c9a98a4152546bebad97065b8109, type: 3}
+  _goalShieldPrefab: {fileID: 0}
+  _secondaryPuckPrefab: {fileID: 0}
+--- !u!4 &2108871348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108871346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2144160589
 GameObject:
   m_ObjectHideFlags: 0
@@ -6106,7 +6161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.6
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 7110071829625339413, guid: 3b97ee6fa5059ad42afe1a9bef38bdda, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6311,3 +6366,4 @@ SceneRoots:
   - {fileID: 1055695906}
   - {fileID: 146965492}
   - {fileID: 676376315}
+  - {fileID: 2108871348}

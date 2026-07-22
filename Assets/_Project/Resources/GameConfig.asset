@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a5fca91840c4944a142e6b4bcf9624, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.GameConfig
-  goalsToWin: 2
+  goalsToWin: 5
   goalResetDelay: 1.2
   goalSideSpawnOffset: 3
   puckMaxSpeed: 13
@@ -25,3 +25,9 @@ MonoBehaviour:
   boardHalfWidth: 2.6
   boardHalfHeight: 4.8
   goalHalfWidth: 1
+  powerUpFirstSpawnMin: 3
+  powerUpFirstSpawnMax: 10
+  powerUpSpawnIntervalMin: 12
+  powerUpSpawnIntervalMax: 18
+  powerUpLifetime: 8
+  powerUpMaxActive: 1

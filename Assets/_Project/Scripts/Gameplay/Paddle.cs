@@ -13,9 +13,34 @@ namespace AIAirHockey
         public PlayerSide Side => _side;
         public Vector2 Position => _rb.position;
 
+        private float _scaleModifier = 1.0f;
+        private Vector3 _baseScale = new Vector3(0.07f, 0.07f, 0.07f);
+        public float ScaleModifier => _scaleModifier;
+        public Vector3 BaseScale => _baseScale;
+        public float CurrentRadius => 0.35f * _scaleModifier;
+
+        public void ResetPosition(Vector2 pos)
+        {
+            if (_rb != null)
+            {
+                _rb.position = pos;
+                _rb.linearVelocity = Vector2.zero;
+                _rb.angularVelocity = 0f;
+            }
+            transform.position = pos;
+        }
+
+        public void SetScaleModifier(float factor)
+        {
+            _scaleModifier = Mathf.Max(0.2f, factor);
+            if (_baseScale == Vector3.zero) _baseScale = new Vector3(0.07f, 0.07f, 0.07f);
+            transform.localScale = _baseScale * _scaleModifier;
+        }
+
         protected virtual void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            if (transform.localScale.x > 0) _baseScale = transform.localScale;
         }
 
         // Move the kinematic paddle toward a target each physics step.
@@ -31,7 +56,8 @@ namespace AIAirHockey
         // Keep paddle inside its own half and inside side walls.
         protected Vector2 ClampToHalf(Vector2 p)
         {
-            float margin = 0.35f; // keep paddle off the walls a touch
+            if (_config == null) return p;
+            float margin = CurrentRadius; // dynamic margin based on paddle radius
             float minX = -_config.boardHalfWidth + margin;
             float maxX = _config.boardHalfWidth - margin;
             p.x = Mathf.Clamp(p.x, minX, maxX);

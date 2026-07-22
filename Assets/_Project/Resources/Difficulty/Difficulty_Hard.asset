@@ -14,10 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIAirHockey.DifficultyProfile
   difficulty: 2
   moveSpeed: 16
-  acceleration: 35
   reactionTime: 0.08
-  predictionTime: 0.5
-  aimError: 0.1
-  mistakeChance: 0.04
-  aggression: 0.8
-  defenseLineY: 3.4
+  predictionTime: 0.8
+  aimError: 0.05
+  mistakeChance: 0.01
+
